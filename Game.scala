@@ -1,5 +1,5 @@
 /**
-  * Created by Administrator on 15/06/2017.
+  * Created by Fraser on 15/06/2017.
   */
 class Game {
 
