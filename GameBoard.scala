@@ -1,3 +1,5 @@
+import scala.collection.mutable.ListBuffer
+
 /**
   * Created by Fraser on 15/06/2017.
   */
@@ -8,7 +10,7 @@ class GameBoard(dim: Int) extends Controls{
   private val miss = 'M'
   private val empty = '+'
   private val shipHere = 'S'
-  private var pb: Ship = new PatrolBoat()
+  private var ships: ListBuffer[Ship] = ListBuffer(new PatrolBoat, new PatrolBoat)
 
   def setupBoard() = {
     //set up all the coords to be empty
@@ -19,22 +21,24 @@ class GameBoard(dim: Int) extends Controls{
 
   def addShips(): Unit ={
     this.displayBoard()
-    println("Place Patrol Boat (2x1)")
-    placeShip(pb)
+
+    for(i<-0 until ships.size)
+      ships(i) = placeShip(ships(i))
 
     //reset the board to be blank
     this.setupBoard()
   }
 
-  def placeShip(ship: Ship): Unit ={
+  def placeShip(ship: Ship): Ship ={
     var validPlacement: Boolean = false
+    println("Place " + ship.getName())
     do{
       var x: Int = getInteger("Enter x value: ")
       var y: Int = getInteger("Enter y value: ")
       var horizontal: Boolean = getBoolean("Horizontal(true), Vertical(false): ")
-      if(checkShipPlacement(x, y, horizontal, pb.getSize())){
-        pb.setPos(x,y,horizontal)
-        for(i<-0 until pb.getSize()){
+      if(checkShipPlacement(x, y, horizontal, ship.getSize())){
+        ship.setPos(x,y,horizontal)
+        for(i<-0 until ship.getSize()){
           if(horizontal) board(x+i)(y) = shipHere else board(x)(y+i) = shipHere
         }
         validPlacement = true
@@ -42,6 +46,7 @@ class GameBoard(dim: Int) extends Controls{
     }while(!validPlacement)
     this.displayBoard()
     println("Ship Placed")
+    ship
   }
 
   def checkShipPlacement(x: Int, y: Int, horizontal: Boolean, shipSize: Int): Boolean ={
@@ -72,7 +77,16 @@ class GameBoard(dim: Int) extends Controls{
   }
 
   def checkShips(x: Int, y: Int): Boolean ={
-    if(pb.checkForHit(x,y))true else false
+    var i : Int = 0
+    var shipHit: Boolean = false
+    do{
+      if(ships(i).checkForHit(x,y))
+        shipHit = true
+      else
+        shipHit = false
+      i+=1
+    }while(i != ships.size && !shipHit)
+    shipHit
   }
 
   def takeTurn(): Boolean ={
@@ -81,8 +95,8 @@ class GameBoard(dim: Int) extends Controls{
     var y: Int = 0
 
     do{
-      x = getInteger("Enter x value: ")
-      y = getInteger("Enter x value: ")
+      x = getInteger("Enter X Co-ordinate: ")
+      y = getInteger("Enter Y Co-ordinate: ")
       validTurn = checkCoord(x, y)
     }while(!validTurn)
 
@@ -98,6 +112,12 @@ class GameBoard(dim: Int) extends Controls{
   }
 
   def allShipsSunk(): Boolean ={
-    pb.isSunk()
+    var shipsSunk = true
+    var i: Int = 0
+    do{
+      shipsSunk = ships(i).isSunk()
+      i+=1
+    }while(i != ships.size && shipsSunk)
+    shipsSunk
   }
 }

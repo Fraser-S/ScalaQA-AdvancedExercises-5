@@ -1,7 +1,8 @@
 /**
   * Created by Fraser on 15/06/2017.
   */
-abstract class Ship(s: Int){
+abstract class Ship(s: Int, n: String){
+  protected var name: String = n
   protected var size: Int = s
   protected var hitBox: Array[Boolean] = new Array[Boolean](size)
   protected var xPosition: Int = 0
@@ -9,6 +10,8 @@ abstract class Ship(s: Int){
   protected var horizontal: Boolean = true
 
   def getSize(): Int = {size}
+
+  def getName(): String = {name}
 
   /**
     * This function sets the ships position on the board, and sets all the hit values to false
