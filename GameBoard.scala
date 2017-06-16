@@ -2,12 +2,12 @@
   * Created by Fraser on 15/06/2017.
   */
 class GameBoard(dim: Int) extends Controls{
-  private var board: Array[Array[Int]] = Array.ofDim[Int](dim, dim)
+  private var board: Array[Array[Char]] = Array.ofDim[Char](dim, dim)
   //used for displaying what state the board is in
-  private val hit = 2
-  private val miss = 1
-  private val empty = 0
-  private val shipHere = 3
+  private val hit = 'X'
+  private val miss = 'M'
+  private val empty = '+'
+  private val shipHere = 'S'
   private var pb: Ship = new PatrolBoat()
 
   def setupBoard() = {
@@ -35,7 +35,7 @@ class GameBoard(dim: Int) extends Controls{
       if(checkShipPlacement(x, y, horizontal, pb.getSize())){
         pb.setPos(x,y,horizontal)
         for(i<-0 until pb.getSize()){
-          if(horizontal) board(x+i)(y) = shipHere else board(x)(y) = shipHere
+          if(horizontal) board(x+i)(y) = shipHere else board(x)(y+i) = shipHere
         }
         validPlacement = true
       }
@@ -58,7 +58,7 @@ class GameBoard(dim: Int) extends Controls{
     //display row by row
     for(y <- 0 until dim){
       for(x <- 0 until dim){
-        print(board(x)(y))
+        print(board(x)(y) + " ")
       }
       println()
     }
@@ -67,7 +67,7 @@ class GameBoard(dim: Int) extends Controls{
   def checkCoord(x: Int, y: Int): Boolean = x match{
     case a if (x < 0 || x >= dim) => println("Invalid x co-ord"); false
     case a if (y < 0 || y >= dim) => println("Invalid y co-ord"); false
-    case a if board(x)(y) == 0 => true
+    case a if board(x)(y) == empty => true
     case _ => println("co-ord already used"); false
   }
 

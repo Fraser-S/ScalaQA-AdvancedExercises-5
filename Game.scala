@@ -16,11 +16,13 @@ class Game extends Controls {
     player1Board.addShips()
     waitForKeyPress("Player 1 - End of Setup ")
 
-    println("Player 2 - Setup board")
-    player2Board = new GameBoard(3)
-    player2Board.setupBoard()
-    player2Board.addShips()
-    waitForKeyPress("Player 2 - End of Setup ")
+    if(running){
+      println("Player 2 - Setup board")
+      player2Board = new GameBoard(3)
+      player2Board.setupBoard()
+      player2Board.addShips()
+      waitForKeyPress("Player 2 - End of Setup ")
+    }
   }
 
   def playerOneTurn(): Unit ={
