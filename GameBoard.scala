@@ -10,7 +10,7 @@ class GameBoard(dim: Int) extends Controls{
   private val miss = 'M'
   private val empty = '+'
   private val shipHere = 'S'
-  private var ships: ListBuffer[Ship] = ListBuffer(new PatrolBoat, new PatrolBoat)
+  private val ships: ListBuffer[Ship] = ListBuffer(new PatrolBoat, new PatrolBoat, new Destroyer, new Destroyer, new Submarine, new Battleship, new Carrier)
 
   def setupBoard() = {
     //set up all the coords to be empty

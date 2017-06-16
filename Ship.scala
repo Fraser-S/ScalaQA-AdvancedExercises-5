@@ -44,10 +44,11 @@ abstract class Ship(s: Int, n: String){
       case _ => iter(index+1)
     }
 
-    if(xPosition == xPos || yPosition == yPos)
-      iter(0)
-    else
-      false
+    var hit = iter(0)
+      if(hit && isSunk){
+        println("Sunk " + name)
+      }
+    hit
   }
 
   /**

@@ -11,13 +11,13 @@ class Game extends Controls {
 
     //setup player 1s board
     println("Player 1 - Setup board")
-    player1Board = new GameBoard(3)
+    player1Board = new GameBoard(12)
     player1Board.setupBoard()
     player1Board.addShips()
     waitForKeyPress("Player 1 - End of Setup ")
 
     println("Player 2 - Setup board")
-    player2Board = new GameBoard(3)
+    player2Board = new GameBoard(12)
     player2Board.setupBoard()
     player2Board.addShips()
     waitForKeyPress("Player 2 - End of Setup ")
